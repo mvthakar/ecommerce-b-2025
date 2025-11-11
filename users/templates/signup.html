@@ -66,6 +66,16 @@
           </form>
         </div>
       </div>
+      {% if error %}
+      <div class="row">
+        <div class="col col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-10 offset-1">
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ error }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+      {% endif %}
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
