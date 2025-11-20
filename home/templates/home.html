@@ -1,4 +1,10 @@
 {% include "header.html" %}
-  <h1>Welcome user</h1>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col text-center">
+      <h3>Welcome, {{ request.COOKIES.email }}</h3>
+    </div>
+  </div>
+</div>
 {% include "footer.html" %}
   
