@@ -1,0 +1,36 @@
+{% include "header.html" %}
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-10 offset-1">
+      <form action="{% url 'edit-category' %}" method="post">
+        {% csrf_token %}
+        <div class="card my-5 shadow">
+          <div class="card-body">
+            <div class="my-3 text-center">
+              <h3>Edit Category</h3>
+            </div>
+            <input type="hidden" name="id" value="{{ category.id }}">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input value="{{ category.name }}" required name="name" placeholder="Abc Xyz" type="text" class="form-control" id="name">
+            </div>
+            <div class="mt-4 text-center d-grid">
+              <button class="btn btn-success" type="submit">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% if error %}
+  <div class="row">
+    <div class="col col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-10 offset-1">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ error }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% include "footer.html" %}
