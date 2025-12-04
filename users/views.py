@@ -8,7 +8,7 @@ from utils.validators import email_validator, password_validator
 
 def login(request: HttpRequest):
   if request.method == "GET":
-    if request.COOKIES.get('email') is not None:
+    if request.session.get('email') is not None:
       return redirect('home')
     return render(request, 'login.html')
 
@@ -25,17 +25,14 @@ def login(request: HttpRequest):
     return render(request, 'login.html', {
       'error': 'Wrong email or password'
     })
-  
-  # Cookie
-  response = redirect("home")
-  response.set_cookie('email', email)
-  
-  return response
+
+  request.session['email'] = email  
+  return redirect("home")
 
 
 def signup(request: HttpRequest):
   if request.method == "GET":
-    if request.COOKIES.get('email') is not None:
+    if request.session.get('email') is not None:
       return redirect('home')
     
     return render(request, 'signup.html')
