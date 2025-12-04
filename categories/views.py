@@ -4,7 +4,7 @@ from .models import Category
 
 
 def show_category_list_page(request: HttpRequest):
-  if request.COOKIES.get('email') is None:
+  if request.session.get('email') is None:
     return redirect('login')
   
   categories = Category.objects.all()
@@ -15,7 +15,7 @@ def show_category_list_page(request: HttpRequest):
 
 
 def add_category(request: HttpRequest):
-  if request.COOKIES.get('email') is None:
+  if request.session.get('email') is None:
     return redirect('login')
 
   if request.method == "GET":
@@ -39,7 +39,7 @@ def show_add_category_page(request: HttpRequest, error: str = ""):
 
 
 def edit_category(request: HttpRequest):
-  if request.COOKIES.get('email') is None:
+  if request.session.get('email') is None:
     return redirect('login')
 
   if request.method == "GET":
@@ -81,7 +81,7 @@ def show_edit_category_page(request: HttpRequest, error: str = ""):
   })
 
 def delete_category(request: HttpRequest):
-  if request.COOKIES.get('email') is None:
+  if request.session.get('email') is None:
     return redirect('login')
   
   id = request.GET.get('id')

@@ -5,7 +5,7 @@ from categories.models import Category
 
 
 def show_product_list_page(request: HttpRequest):
-  if request.COOKIES.get('email') is None:
+  if request.session.get('email') is None:
     return redirect('login')
   
   products = Product.objects.all()
@@ -15,7 +15,7 @@ def show_product_list_page(request: HttpRequest):
   
 
 def add_product(request: HttpRequest):
-  if request.COOKIES.get('email') is None:
+  if request.session.get('email') is None:
     return redirect('login')
 
   if request.method == "GET":
@@ -50,7 +50,7 @@ def show_add_product_page(request: HttpRequest, error: str = ""):
 
 
 def edit_product(request: HttpRequest):
-  if request.COOKIES.get('email') is None:
+  if request.session.get('email') is None:
     return redirect('login')
 
   if request.method == "GET":
@@ -105,7 +105,7 @@ def show_edit_product_page(request: HttpRequest, error: str = ""):
 
 
 def delete_product(request: HttpRequest):
-  if request.COOKIES.get('email') is None:
+  if request.session.get('email') is None:
     return redirect('login')
 
   id = request.GET.get('id')
