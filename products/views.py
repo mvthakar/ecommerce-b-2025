@@ -1,7 +1,9 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from .models import Product
+
 from categories.models import Category
+from .models import Product
+from .forms import AddProductForm
 
 
 def show_product_list_page(request: HttpRequest):
@@ -21,31 +23,37 @@ def add_product(request: HttpRequest):
   if request.method == "GET":
     return show_add_product_page(request)
 
-  name = request.POST.get('name')
-  price = request.POST.get('price')
-  category_id = request.POST.get('category')
+  form = AddProductForm(request.POST)
+  if form.is_valid():
+    name = form.cleaned_data['name']
+    price = form.cleaned_data['price']
+    category_id = form.cleaned_data['category'].id
 
-  if name is None or name == "" or price is None or float(price) < 1:
-    return show_add_product_page(request, error='Invalid values')
+    if name is None or name == "" or price is None or float(price) < 1:
+      return show_add_product_page(request, error='Invalid values')
 
-  category = Category.objects.filter(id=category_id).first()
-  if category is None:
-    return show_add_product_page(request, error='Category doesn\'t exist')
+    category = Category.objects.filter(id=category_id).first()
+    if category is None:
+      return show_add_product_page(request, error='Category doesn\'t exist')
 
-  Product.objects.create(name=name, price=price, category=category)
-  return redirect('list-products')
+    form.save()
+    return redirect('list-products')
 
 
 def show_add_product_page(request: HttpRequest, error: str = ""):
   categories = Category.objects.all()
+  form = AddProductForm()
+  
   if error == "":
     return render(request, 'add-product.html', {
-      'categories': categories
+      'categories': categories,
+      'form': form
     })
     
   return render(request, 'add-product.html', {
     'categories': categories,
-    'error': error
+    'error': error,
+      'form': form
   })
 
 
